@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /data-analysis
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/data_analysis?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 1IlIIl
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        temp:
+         use_jdbc_metadata_defaults: false

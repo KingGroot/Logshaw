@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据录入</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="css/bootstrap-combined.min.css" rel="stylesheet">-->
+    <link href="../css/jquery.pagination.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/min/Jquery.min.js"></script>
+    <script type="text/javascript" src="../js/min/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/min/jquery.pagination.min.js"></script>
+    <style>
+        .span2{
+            width: 350px;
+            float: left;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 20px;
+        }
+        .span3{
+            width: 350px;
+            float: left;
+            padding: 20px;
+        }
+        .span4{
+            width: 350px;
+            float: none;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="span2">
+                    <div class="input-group">
+                        <span class="input-group-addon">赛区</span>
+                        <select class="form-control" id="sq" aria-describedby="basic-addon3">
+                            <option value="英超">英超</option>
+                            <option value="挪超">挪超</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="input-group">
+                        <span class="input-group-addon">球队名称</span>
+                        <select class="form-control" id="qd" aria-describedby="basic-addon3">
+                            <option value="阿森纳">阿森纳</option>
+                            <option value="埃佛顿">埃佛顿</option>
+                            <option value="伯恩利">伯恩利</option>
+                            <option value="伯恩茅">伯恩茅</option>
+                            <option value="布莱顿">布莱顿</option>
+                            <option value="富勒姆">富勒姆</option>
+                            <option value="哈德斯">哈德斯</option>
+                            <option value="加的夫">加的夫</option>
+                            <option value="莱切城">莱切城</option>
+                            <option value="狼队">狼队</option>
+                            <option value="利物浦">利物浦</option>
+                            <option value="曼城">曼城</option>
+                            <option value="曼联">曼联</option>
+                            <option value="南安普">南安普</option>
+                            <option value="纽卡斯">纽卡斯</option>
+                            <option value="切尔西">切尔西</option>
+                            <option value="热刺">热刺</option>
+                            <option value="水晶宫">水晶宫</option>
+                            <option value="沃特福">沃特福</option>
+                            <option value="西汉姆">西汉姆</option>
+                            <option value="博德">博德</option>
+                            <option value="莫尔德">莫尔德</option>
+                            <option value="斯达">斯达</option>
+                            <option value="萨堡">萨堡</option>
+                            <option value="克里斯">克里斯</option>
+                            <option value="特罗姆">特罗姆</option>
+                            <option value="奥德">奥德</option>
+                            <option value="兰赫姆">兰赫姆</option>
+                            <option value="罗森博">罗森博</option>
+                            <option value="桑德">桑德</option>
+                            <option value="海于松">海于松</option>
+                            <option value="斯特罗">斯特罗</option>
+                            <option value="布兰">布兰</option>
+                            <option value="泽尼特">泽尼特</option>
+                            <option value="斯塔贝">斯塔贝</option>
+                            <option value="希伯尼">希伯尼</option>
+                            <option value="利勒斯">利勒斯</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="input-group">
+                        <span class="input-group-addon">时间</span>
+                        <input type="date" class="form-control" id="sj" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="input-group">
+                        <span class="input-group-addon">主/客</span>
+                        <select class="form-control" id="zk" aria-describedby="basic-addon3">
+                            <option value="主场">主场</option>
+                            <option value="客场">客场</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="input-group" style="text-align: center">
+                        <span class="input-group-addon">赛前排名</span>
+                        <input type="text" class="form-control" id="sqpm1" aria-describedby="basic-addon3">VS
+                        <input type="text" class="form-control" id="sqpm2" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="input-group" style="text-align: center;font-weight: bolder">
+                        <span class="input-group-addon">比分</span>
+                        <input type="text" class="form-control" id="fs1" aria-describedby="basic-addon3">:
+                        <input type="text" class="form-control" id="fs2" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="input-group">
+                        <span class="input-group-addon">技术统计</span>
+                        <input type="text" class="form-control" id="kql" aria-describedby="basic-addon3" placeholder="控球率">
+                        <input type="text" class="form-control" id="jgcs" aria-describedby="basic-addon3" placeholder="进攻次数">
+                        <input type="text" class="form-control" id="wxjg" aria-describedby="basic-addon3" placeholder="危险进攻">
+                        <input type="text" class="form-control" id="smcs" aria-describedby="basic-addon3" placeholder="射门次数">
+                        <input type="text" class="form-control" id="szcs" aria-describedby="basic-addon3" placeholder="射正次数">
+                        <input type="text" class="form-control" id="jqs" aria-describedby="basic-addon3" placeholder="进球数">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-info" onclick="saveData()" style="margin-left: 20px">提交</button>
+        </div>
+    </div>
+</body>
+<!--<script type="text/javascript" src="../js/frame-dataanalys.js"></script>-->
+<script>
+    function saveData() {
+        $.ajax({
+            type:"post",
+            url:"/data-analysis/savaQsData",
+            data:{
+                "qd":$("#qd").val(),
+                "sj":$("#sj").val(),
+                "zk":$("#zk").val(),
+                "pm1":$("#sqpm1").val(),
+                "pm2":$("#sqpm2").val(),
+                "bf1":$("#fs1").val(),
+                "bf2":$("#fs2").val(),
+                "kql":$("#kql").val(),
+                "jgcs":$("#jgcs").val(),
+                "wxjg":$("#wxjg").val(),
+                "smcs":$("#smcs").val(),
+                "szcs":$("#szcs").val(),
+                "jqs":$("#jqs").val(),
+                "sq":$("#sq").val()
+            },
+            dataType:"JSON",
+            success:function (data) {
+                location = location
+            }
+        });
+    }
+</script>
+</html>

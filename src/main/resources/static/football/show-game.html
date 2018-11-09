@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据统计分析</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="css/bootstrap-combined.min.css" rel="stylesheet">-->
+    <link href="../css/jquery.pagination.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/min/Jquery.min.js"></script>
+    <script type="text/javascript" src="../js/min/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/min/jquery.pagination.min.js"></script>
+</head>
+<body>
+<div class="input-group" style="width: 300px;float:left;padding: 20px">
+    <span class="input-group-addon">赛区</span>
+    <select class="form-control" id="sq" aria-describedby="basic-addon3">
+        <option value="英超">英超</option>
+        <option value="挪超">挪超</option>
+    </select>
+</div>
+<div class="input-group" style="width: 300px;float:left;padding: 20px">
+    <span class="input-group-addon">球队名称</span>
+    <select class="form-control" id="qd" aria-describedby="basic-addon3">
+        <option value="阿森纳">阿森纳</option>
+        <option value="埃佛顿">埃佛顿</option>
+        <option value="伯恩利">伯恩利</option>
+        <option value="伯恩茅">伯恩茅</option>
+        <option value="布莱顿">布莱顿</option>
+        <option value="富勒姆">富勒姆</option>
+        <option value="哈德斯">哈德斯</option>
+        <option value="加的夫">加的夫</option>
+        <option value="莱切城">莱切城</option>
+        <option value="狼队">狼队</option>
+        <option value="利物浦">利物浦</option>
+        <option value="曼城">曼城</option>
+        <option value="曼联">曼联</option>
+        <option value="南安普">南安普</option>
+        <option value="纽卡斯">纽卡斯</option>
+        <option value="切尔西">切尔西</option>
+        <option value="热刺">热刺</option>
+        <option value="水晶宫">水晶宫</option>
+        <option value="沃特福">沃特福</option>
+        <option value="西汉姆">西汉姆</option>
+        <option value="博德">博德</option>
+        <option value="莫尔德">莫尔德</option>
+        <option value="斯达">斯达</option>
+        <option value="萨堡">萨堡</option>
+        <option value="克里斯">克里斯</option>
+        <option value="特罗姆">特罗姆</option>
+        <option value="奥德">奥德</option>
+        <option value="兰赫姆">兰赫姆</option>
+        <option value="罗森博">罗森博</option>
+        <option value="桑德">桑德</option>
+        <option value="海于松">海于松</option>
+        <option value="斯特罗">斯特罗</option>
+        <option value="布兰">布兰</option>
+        <option value="泽尼特">泽尼特</option>
+        <option value="斯塔贝">斯塔贝</option>
+        <option value="希伯尼">希伯尼</option>
+        <option value="利勒斯">利勒斯</option>
+    </select>
+</div>
+<button type="button" class="btn btn-info" onclick="findQdinfo()" style="margin-top: 20px">查询</button>
+<button type="button"  class="btn btn-warning" id="getValue" style="margin-top: 20px;margin-left: 200px" onclick="singleVariation()">计算所选中数据平均值</button>
+<table class="table table-bordered" style="width:98%;margin: auto">
+    <thead>
+    <tr><td colspan="8" style="font-size: 20px;font-weight: bolder;text-align: center"><span id="sqName"></span>联赛球队数据统计分析</td></tr>
+    <tr>
+        <th></th>
+        <th>球队</th>
+        <th>比赛时间</th>
+        <th>主场/客场</th>
+        <th>赛前排名</th>
+        <th>比分</th>
+        <th>技术统计</th>
+        <th>平均值</th>
+    </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
+</body>
+<!--<script type="text/javascript" src="../js/frame-home.js"></script>-->
+<script>
+    document.getElementById("sqName").innerHTML = $("#sq").val();
+    getAll();
+    function getAll() {
+        $("#tbody tr").remove();
+        $.ajax({
+            type:"post",
+            url:"/data-analysis/getAllQd",
+            data:{"sq":$("#sq").val()},
+            dataType:"JSON",
+            success:function (data) {
+                for(var i=0;i<data.length;i++){
+                    var str = null;
+                    if(data[i].zk === "主场"){
+                        str = "<tr>" +
+                            "<td><input type='checkbox' name='check' value='"+data[i].id+"'></td>" +
+                            "<td>"+data[i].qd+"</td>" +
+                            "<td>"+data[i].sj+"</td>" +
+                            "<td>"+data[i].zk+"</td>" +
+                            "<td><span style='color: red'>"+data[i].pm1+"</span> vs "+data[i].pm2+"</td>" +
+                            "<td><span style='color: red'>"+data[i].bf1+"</span> : "+data[i].bf2+"</td>" +
+                            "<td>"+data[i].kql+"%"+"——"+data[i].jgcs+"——"+data[i].wxjg+"——"+data[i].smcs+"——"+data[i].szcs+"——"+data[i].jqs+"</td>" +
+                            "<td>"+(data[i].jgcs/(data[i].kql/100)).toFixed(2)+"——"+(data[i].wxjg/data[i].jgcs).toFixed(2)+"——"+(data[i].smcs/data[i].wxjg).toFixed(2)+"——"+(data[i].szcs/data[i].smcs).toFixed(2)+"——"+(data[i].jqs/data[i].szcs).toFixed(2)+"</td>" +
+                            "</tr>";
+                    }else {
+                        str = "<tr>" +
+                            "<td><input type='checkbox' name='check' value='"+data[i].id+"'></td>" +
+                            "<td>"+data[i].qd+"</td>" +
+                            "<td>"+data[i].sj+"</td>" +
+                            "<td>"+data[i].zk+"</td>" +
+                            "<td>"+data[i].pm1+" vs <span style='color: red'>"+data[i].pm2+"</span></td>" +
+                            "<td>"+data[i].bf1+" : <span style='color: red'>"+data[i].bf2+"</span></td>" +
+                            "<td>"+data[i].kql+"%"+"——"+data[i].jgcs+"——"+data[i].wxjg+"——"+data[i].smcs+"——"+data[i].szcs+"——"+data[i].jqs+"</td>" +
+                            "<td>"+(data[i].jgcs/(data[i].kql/100)).toFixed(2)+"——"+(data[i].wxjg/data[i].jgcs).toFixed(2)+"——"+(data[i].smcs/data[i].wxjg).toFixed(2)+"——"+(data[i].szcs/data[i].smcs).toFixed(2)+"——"+(data[i].jqs/data[i].szcs).toFixed(2)+"</td>" +
+                            "</tr>";
+                    }
+                    $("#tbody").append(str);
+                }
+            }
+        });
+    }
+
+    function findQdinfo() {
+        document.getElementById("sqName").innerHTML = $("#sq").val();
+        $("#tbody tr").remove();
+        $.ajax({
+            type: "post",
+            url: "/data-analysis/getQdDataByQd",
+            data:{"sq":$("#sq").val(),"qd":$("#qd").val()},
+            dataType: "JSON",
+            success: function (data) {
+                if(data.length === 0){
+                    alert("没有相关数据！");
+                    return false;
+                }else {
+                    for(var i=0;i<data.length;i++){
+                        var str = null;
+                        if(data[i].zk === "主场"){
+                            str = "<tr>" +
+                                "<td><input type='checkbox' name='check' value='"+data[i].id+"'></td>" +
+                                "<td>"+data[i].qd+"</td>" +
+                                "<td>"+data[i].sj+"</td>" +
+                                "<td>"+data[i].zk+"</td>" +
+                                "<td><span style='color: red'>"+data[i].pm1+"</span> vs "+data[i].pm2+"</td>" +
+                                "<td><span style='color: red'>"+data[i].bf1+"</span> : "+data[i].bf2+"</td>" +
+                                "<td>"+data[i].kql+"%"+"——"+data[i].jgcs+"——"+data[i].wxjg+"——"+data[i].smcs+"——"+data[i].szcs+"——"+data[i].jqs+"</td>" +
+                                "<td>"+(data[i].jgcs/(data[i].kql/100)).toFixed(2)+"——"+(data[i].wxjg/data[i].jgcs).toFixed(2)+"——"+(data[i].smcs/data[i].wxjg).toFixed(2)+"——"+(data[i].szcs/data[i].smcs).toFixed(2)+"——"+(data[i].jqs/data[i].szcs).toFixed(2)+"</td>" +
+                                "</tr>";
+                        }else {
+                            str = "<tr>" +
+                                "<td><input type='checkbox' name='check' value='"+data[i].id+"'></td>" +
+                                "<td>"+data[i].qd+"</td>" +
+                                "<td>"+data[i].sj+"</td>" +
+                                "<td>"+data[i].zk+"</td>" +
+                                "<td>"+data[i].pm1+" vs <span style='color: red'>"+data[i].pm2+"</span></td>" +
+                                "<td>"+data[i].bf1+" : <span style='color: red'>"+data[i].bf2+"</span></td>" +
+                                "<td>"+data[i].kql+"%"+"——"+data[i].jgcs+"——"+data[i].wxjg+"——"+data[i].smcs+"——"+data[i].szcs+"——"+data[i].jqs+"</td>" +
+                                "<td>"+(data[i].jgcs/(data[i].kql/100)).toFixed(2)+"——"+(data[i].wxjg/data[i].jgcs).toFixed(2)+"——"+(data[i].smcs/data[i].wxjg).toFixed(2)+"——"+(data[i].szcs/data[i].smcs).toFixed(2)+"——"+(data[i].jqs/data[i].szcs).toFixed(2)+"</td>" +
+                                "</tr>";
+                        }
+                        $("#tbody").append(str);
+                    }
+                }
+            }
+        });
+    }
+
+    //打开新窗口
+    function singleVariation() {
+        var obj=document.getElementsByName('check'); //选择所有name="'test'"的对象，返回数组
+        //取到对象数组后，我们来循环检测它是不是被选中
+        var s='';
+        for(var i=0; i<obj.length; i++){
+            if(obj[i].checked) s+=obj[i].value+','; //如果选中，将value添加到变量s中
+        }
+        s = s.substr(0, s.length - 1);
+        openDialog("calculation.html?yxbyqid="+s, 1092, 550);
+    }
+
+    //初始化新窗口
+    function openDialog(url, iWidth, iHeight) {
+        //window.screen.height获得屏幕的高，window.screen.width获得屏幕的宽
+        var iTop = (window.screen.height - 50 - iHeight) / 2; //获得窗口的垂直位置;
+        var iLeft = (window.screen.width - 10 - iWidth) / 2; //获得窗口的水平位置;
+        dialog = window.open(url, '',
+            'width=' + iWidth +
+            ',height=' + iHeight +
+            ',left=' + iLeft +
+            ',top=' + iTop +
+            'scrollbars=no,location=no,dependent=true'
+        );
+    }
+</script>
+</html>

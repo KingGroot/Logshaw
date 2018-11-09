@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算平均值</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<table class="table table-bordered" style="width:60%;margin: 40px auto 0 auto">
+    <tbody id="ttbody"></tbody>
+</table>
+<button type="button" class="btn btn-success" onclick="getAvg()" style="width: 200px;margin-left: 220px">计算</button>
+<table class="table table-bordered" style="width:60%;margin: 40px auto 0 auto">
+    <tbody id="tttbody"></tbody>
+</table>
+</body>
+<script type="text/javascript" src="../js/min/Jquery.min.js"></script>
+<script>
+    var ids = (location.search).split("=")[1];
+    var num = ids.split(",").length;
+
+    var _1 = [];
+    var _2 = [];
+    var _3 = [];
+    var _4 = [];
+    var _5 = [];
+
+    getAll(ids);
+
+    var k = 0;
+    function getAll(ids) {
+
+        $("#ttbody tr").remove();
+        $.ajax({
+            type:"post",
+            url:"/data-analysis/getDataByIdss",
+            data:{"ids":ids},
+            dataType:"JSON",
+            success:function (data) {
+                k = data.length;
+                for(var i=0;i<data.length;i++){
+                    var str = "<tr>" +
+                            "<td style='text-align: center'>" +
+                        "<input id='"+(i*5+1)+"' style='width: 100px;border: solid red' type='number' value='"+(data[i].jgcs/(data[i].kql/100)).toFixed(2)+"'>——" +
+                        "<input id='"+(i*5+2)+"' style='width: 100px;border: solid red' type='number' value='"+(data[i].wxjg/data[i].jgcs).toFixed(2)+"'>——" +
+                        "<input id='"+(i*5+3)+"' style='width: 100px;border: solid red' type='number' value='"+(data[i].smcs/data[i].wxjg).toFixed(2)+"'>——" +
+                        "<input id='"+(i*5+4)+"' style='width: 100px;border: solid red' type='number' value='"+(data[i].szcs/data[i].smcs).toFixed(2)+"'>——" +
+                        "<input id='"+(i*5+5)+"' style='width: 100px;border: solid red' type='number' value='"+(data[i].jqs/data[i].szcs).toFixed(2)+"'></td>" +
+                            "</tr>";
+                    $("#ttbody").append(str);
+                }
+            }
+        });
+    }
+
+    function getValue(x) {
+        for (var j = 1; j <= 5; j++) {
+            for (var k = 0; k < x; k++) {
+                _0[j-1][k] = ($("#" + (k*5 + j)).val());
+            }
+        }
+    }
+
+    var _0 = [_1,_2,_3,_4,_5];
+    function a(x,y) {
+        var temp=0;
+        for(var i=0;i<_1.length;i++) {
+            temp += parseFloat(_0[x][i])/y;
+        }
+        return temp.toFixed(2);
+    }
+    function b() {
+        var temp = "";
+        for(var i=0;i<_0.length;i++) {
+            temp += a(i,num);
+            temp = i < _0.length-1 ? temp += "——" : temp += "";
+        }
+        return temp;
+    }
+    function getAvg() {
+        getValue(k);
+        $("#tttbody tr").remove();
+        var str = "<tr><td style='text-align: center'>"+b()+"</td></tr>";
+
+        $("#tttbody").append(str);
+    }
+</script>
+</html>
